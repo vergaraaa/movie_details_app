@@ -35,6 +35,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2
+  flutter_dotenv: ^5.0.2
   formz: ^0.4.1
   http: ^0.13.5
 
