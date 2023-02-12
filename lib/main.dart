@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+//
+import 'package:movie_details_app/routes/routes.dart';
 
-void main() => runApp(const MyApp());
+Future main() async {
+  await dotenv.load();
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,14 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Movie Details App',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Movie Details App'),
-        ),
-        body: const Center(
-          child: Text('Hello World'),
-        ),
-      ),
+      routes: appRoutes,
+      initialRoute: 'home',
     );
   }
 }
