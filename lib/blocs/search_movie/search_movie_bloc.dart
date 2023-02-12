@@ -1,6 +1,5 @@
-import 'package:bloc/bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 //
 import 'package:movie_details_app/models/models.dart';
 import 'package:movie_details_app/repositories/movies_repository.dart';
@@ -8,7 +7,8 @@ import 'package:movie_details_app/repositories/movies_repository.dart';
 part 'search_movie_event.dart';
 part 'search_movie_state.dart';
 
-class SearchMovieBloc extends Bloc<SearchMovieEvent, SearchMovieState> {
+class SearchMovieBloc extends Bloc<SearchMovieEvent, SearchMovieState>
+    with HydratedMixin {
   SearchMovieBloc() : super(const SearchMovieState()) {
     on<SearchTitleChanged>(_onSearchTitleChanged);
     on<SearchMovieSubmitted>(_onSearchMovieSubmitted);
@@ -29,7 +29,7 @@ class SearchMovieBloc extends Bloc<SearchMovieEvent, SearchMovieState> {
   ) async {
     if (state.search.isEmpty) return;
 
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
+    emit(state.copyWith(status: SearchStatus.inProgress));
 
     try {
       final movie = await moviesRepository.getMovieDetail(state.search);
@@ -54,14 +54,24 @@ class SearchMovieBloc extends Bloc<SearchMovieEvent, SearchMovieState> {
       emit(state.copyWith(
         movie: movie,
         history: history,
-        status: FormzStatus.submissionSuccess,
+        status: SearchStatus.success,
         error: '',
       ));
     } catch (e) {
       emit(state.copyWith(
-        status: FormzStatus.submissionFailure,
+        status: SearchStatus.failure,
         error: e.toString(),
       ));
     }
+  }
+
+  @override
+  SearchMovieState? fromJson(Map<String, dynamic> json) {
+    return SearchMovieState.fromJson(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(SearchMovieState state) {
+    return state.toJson();
   }
 }

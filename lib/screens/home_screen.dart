@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 //
 import 'package:movie_details_app/blocs/blocs.dart';
 import 'package:movie_details_app/screens/screens.dart';
@@ -16,12 +16,15 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('MOVIE DETAILS APP'),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => HydratedBloc.storage.clear(),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: BlocListener<SearchMovieBloc, SearchMovieState>(
           listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
-            if (state.status.isSubmissionSuccess) {
+            if (state.status == SearchStatus.success) {
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(
@@ -30,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               );
-            } else if (state.status.isSubmissionFailure) {
+            } else if (state.status == SearchStatus.failure) {
               showCupertinoDialog(
                 context: context,
                 builder: (context) {
@@ -87,7 +90,8 @@ class _SearchTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      initialValue: context.read<SearchMovieBloc>().state.search,
       decoration: const InputDecoration(
         suffixIcon: Icon(
           Icons.search,
@@ -143,7 +147,7 @@ class _SearchMovieButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SearchMovieBloc, SearchMovieState>(
       builder: (context, state) {
-        if (state.status.isSubmissionInProgress) {
+        if (state.status == SearchStatus.inProgress) {
           return const Center(
             child: CircularProgressIndicator(),
           );

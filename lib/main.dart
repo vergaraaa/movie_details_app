@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 //
 import 'package:movie_details_app/blocs/blocs.dart';
 import 'package:movie_details_app/routes/routes.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future main() async {
   await dotenv.load();
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  HydratedBloc.storage = await HydratedStorage.build(
+      storageDirectory: await getApplicationDocumentsDirectory());
 
   runApp(const MyApp());
 }
