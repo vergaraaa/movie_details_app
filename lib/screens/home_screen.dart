@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 //
+import 'package:movie_details_app/models/models.dart';
+import 'package:movie_details_app/screens/screens.dart';
 import 'package:movie_details_app/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -105,7 +107,16 @@ class _SearchMovieButton extends StatelessWidget {
             const RoundedRectangleBorder(),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => MovieDetailScreen(
+                movie: MovieModel.empty,
+              ),
+            ),
+          );
+        },
         child: const Text('Search movie'),
       ),
     );

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+//
+import 'package:movie_details_app/models/models.dart';
+import 'package:movie_details_app/screens/screens.dart';
 
 class MovieWidget extends StatelessWidget {
   const MovieWidget({super.key});
@@ -52,7 +55,16 @@ class _SeeDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => MovieDetailScreen(
+              movie: MovieModel.empty,
+            ),
+          ),
+        );
+      },
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: const [

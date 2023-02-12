@@ -10,7 +10,7 @@ MovieModel movieModelFromJson(String str) =>
 String movieModelToJson(MovieModel data) => json.encode(data.toJson());
 
 class MovieModel {
-  MovieModel({
+  const MovieModel({
     required this.title,
     required this.year,
     required this.rated,
@@ -120,6 +120,34 @@ class MovieModel {
         "Website": website,
         "Response": response,
       };
+
+  static const empty = MovieModel(
+    title: '',
+    year: '',
+    rated: '',
+    released: '',
+    runtime: '',
+    genre: '',
+    director: '',
+    writer: '',
+    actors: '',
+    plot: '',
+    language: '',
+    country: '',
+    awards: '',
+    poster: '',
+    ratings: [],
+    metascore: '',
+    imdbRating: '',
+    imdbVotes: '',
+    imdbId: '',
+    type: '',
+    dvd: '',
+    boxOffice: '',
+    production: '',
+    website: '',
+    response: '',
+  );
 }
 
 class Rating {
