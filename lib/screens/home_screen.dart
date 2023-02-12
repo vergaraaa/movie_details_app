@@ -119,13 +119,19 @@ class _History extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemBuilder: (context, index) => MovieWidget(),
-      itemCount: 10,
-      shrinkWrap: true,
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 20,
-      ),
+    return BlocBuilder<SearchMovieBloc, SearchMovieState>(
+      builder: (context, state) {
+        return ListView.separated(
+          itemBuilder: (context, index) => MovieWidget(
+            movie: state.history[index],
+          ),
+          itemCount: state.history.length,
+          shrinkWrap: true,
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 20,
+          ),
+        );
+      },
     );
   }
 }

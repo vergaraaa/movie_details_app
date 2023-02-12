@@ -4,7 +4,9 @@ import 'package:movie_details_app/models/models.dart';
 import 'package:movie_details_app/screens/screens.dart';
 
 class MovieWidget extends StatelessWidget {
-  const MovieWidget({super.key});
+  const MovieWidget({super.key, required this.movie});
+
+  final MovieModel movie;
 
   @override
   Widget build(BuildContext context) {
@@ -13,17 +15,17 @@ class MovieWidget extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(border: Border.all()),
       child: Column(
-        children: const [
+        children: [
           Align(
             alignment: Alignment.centerLeft,
             child: _MovieTitle(
-              title: 'Movie Title #',
+              title: movie.title,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Align(
             alignment: Alignment.centerRight,
-            child: _SeeDetails(),
+            child: _SeeDetails(movie: movie),
           ),
         ],
       ),
@@ -50,7 +52,9 @@ class _MovieTitle extends StatelessWidget {
 }
 
 class _SeeDetails extends StatelessWidget {
-  const _SeeDetails({super.key});
+  const _SeeDetails({super.key, required this.movie});
+
+  final MovieModel movie;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +64,7 @@ class _SeeDetails extends StatelessWidget {
           context,
           MaterialPageRoute<void>(
             builder: (BuildContext context) => MovieDetailScreen(
-              movie: MovieModel.empty,
+              movie: movie,
             ),
           ),
         );

@@ -8,7 +8,7 @@ class MoviesRepository {
   final String apiKey = dotenv.get('API_KEY');
   final String baseUrl = dotenv.get('BASE_URL');
 
-  Future<MovieModel?> getMovieDetail(String movieTitle) async {
+  Future<MovieModel> getMovieDetail(String movieTitle) async {
     final url = Uri.parse('$baseUrl/?apikey=$apiKey&t=$movieTitle');
 
     final resp = await http.get(

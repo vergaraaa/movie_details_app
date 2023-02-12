@@ -33,9 +33,27 @@ class SearchMovieBloc extends Bloc<SearchMovieEvent, SearchMovieState> {
 
     try {
       final movie = await moviesRepository.getMovieDetail(state.search);
+      List<MovieModel> history = state.history;
+
+      // check if movie is already in history
+      int? index;
+      for (int i = 0; i < history.length; i++) {
+        if (movie.imdbId == history[i].imdbId) {
+          index = i;
+          break;
+        }
+      }
+
+      if (index != null) {
+        history.removeAt(index);
+        history.insert(0, movie);
+      } else {
+        history = List.of(state.history)..insert(0, movie);
+      }
 
       emit(state.copyWith(
         movie: movie,
+        history: history,
         status: FormzStatus.submissionSuccess,
         error: '',
       ));
